@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace NuvalenceRectangles
@@ -13,6 +14,18 @@ namespace NuvalenceRectangles
         public int Height { get; set; }
         public int Width { get; set; }
         public bool InvalidRectangle { get; set; }
+        public Rectangle(string coordinates)
+        {
+            var values = coordinates.Split(',');
+            if (values.Count() != 4)
+                throw new Exception("Invalid Coordinates");
+
+            X1 = int.Parse(values[0]);
+            Y1 = int.Parse(values[1]);
+            X2 = int.Parse(values[2]);
+            Y2 = int.Parse(values[3]);
+            InvalidRectangle = X2 < X1 || Y2 < Y1;
+        }
         public Rectangle(int x1, int y1, int x2, int y2)
         {
             InvalidRectangle = x2 < x1 || y2 < y1;
