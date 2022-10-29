@@ -9,17 +9,23 @@ namespace NuvalanceRectangles.Tests
     {
         [TestMethod]
         [ExpectedException(typeof(Exception))]
-        public void InvalidCoordinates_InvalidRectangle()
+        public void CalculateValues_InvalidCoordinates_Exception()
         {
-            //Arrange - Act
+            //Arrange 
             var rectangle = new Rectangle(2, 3, 1, 4);
+
+            //Act
+            rectangle.CalculateValues();
         }
 
         [TestMethod]
-        public void PositiveCoordinates_ValidRectangle()
+        public void CalculateValues_PositiveCoordinates_ValidRectangle()
         {
             //Arrange - Act
             var rectangle = new Rectangle(2, 3, 6, 4);
+
+            //Act
+            rectangle.CalculateValues();
 
             //Assert
             Assert.AreEqual(rectangle.Width, 4);
@@ -28,10 +34,13 @@ namespace NuvalanceRectangles.Tests
         }
 
         [TestMethod]
-        public void NegativeCoordinates_ValidRectangle()
+        public void CalculateValues_NegativeCoordinates_ValidRectangle()
         {
             //Arrange - Act
             var rectangle = new Rectangle(-2, 1, 6, 4);
+
+            //Act
+            rectangle.CalculateValues();
 
             //Assert
             Assert.AreEqual(rectangle.Width, 8);

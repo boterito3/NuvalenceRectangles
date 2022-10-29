@@ -6,13 +6,13 @@ namespace NuvalenceRectangles
 {
     public class RectangleEngine
     {
-        public Rectangle RectangleA { get; set; }
-        public Rectangle RectangleB { get; set; }
-        public Rectangle IntersectionRentangle { get; set; }
-        public bool SameWidth { get; set; }
-        public bool SameHight { get; set; }
-        public bool StartSamePointX { get; set; }
-        public bool StartSamePointY { get; set; }
+        private Rectangle RectangleA { get; set; }
+        private Rectangle RectangleB { get; set; }
+        private Rectangle IntersectionRentangle { get; set; }
+        private bool SameWidth { get; set; }
+        private bool SameHight { get; set; }
+        private bool StartSamePointX { get; set; }
+        private bool StartSamePointY { get; set; }
         public bool Containtment { get; set; }
         public bool Intersection { get; set; }
         public bool Adjacency { get; set; }
@@ -23,24 +23,38 @@ namespace NuvalenceRectangles
         {
             RectangleA = rectangleA;
             RectangleB = rectangleB;
+            CalculateValues();
+        }
+
+        public void CalculateValues() 
+        {
+            RectangleA.CalculateValues();
+            RectangleB.CalculateValues();
             SameWidth = RectangleA.Width == RectangleB.Width;
             SameHight = RectangleA.Height == RectangleB.Height;
             StartSamePointX = RectangleA.X1 == RectangleB.X1;
             StartSamePointY = RectangleA.Y1 == RectangleB.Y1;
             CalculateIntersectionRectangleValues();
+            if (!IntersectionRentangle.InvalidRectangle)
+                IntersectionRentangle.CalculateValues();
+        }
+
+        public void RunFeaturesAnalysis() 
+        {
             Containtment = CalculateContainmentStatus();
             Adjacency = CalculateAdjacencyStatus();
             Intersection = CalculateIntersectionStatus();
             IntersectionPoints = GetIntersectionPoints();
             AdjacencyType = GetAdjacencyType();
         }
+
         private void CalculateIntersectionRectangleValues()
         {
             var X1 = Math.Max(RectangleA.X1, RectangleB.X1);
-            var X2 = Math.Max(RectangleA.X2, RectangleB.X2);
-            var Y1 = Math.Min(RectangleA.Y1, RectangleB.Y1);
+            var X2 = Math.Min(RectangleA.X2, RectangleB.X2);
+            var Y1 = Math.Max(RectangleA.Y1, RectangleB.Y1);
             var Y2 = Math.Min(RectangleA.Y2, RectangleB.Y2);
-            IntersectionRentangle = new Rectangle(X1, X2, Y1, Y2);
+            IntersectionRentangle = new Rectangle(X1, Y1, X2, Y2);
         }
 
         public bool CalculateContainmentStatus()
@@ -58,7 +72,7 @@ namespace NuvalenceRectangles
             if (IntersectionRentangle.Area == 0)
                 return false;
 
-            return (IntersectionRentangle.X1 > IntersectionRentangle.X2) || (IntersectionRentangle.Y1 > IntersectionRentangle.Y2);
+            return !((IntersectionRentangle.X1 > IntersectionRentangle.X2) || (IntersectionRentangle.Y1 > IntersectionRentangle.Y2));
         }
 
         public string GetIntersectionPoints()
@@ -79,20 +93,20 @@ namespace NuvalenceRectangles
                 if (adjacencyAxis == "Y")
                 {
                     if (SameHight && StartSamePointY)
-                        adjacencyType = "Adjacency (proper)";
+                        adjacencyType = "proper";
                     else if (SameHight && !StartSamePointY)
-                        adjacencyType = "Adjacency (partial)";
+                        adjacencyType = "partial";
                     else
-                        adjacencyType = "Adjacency (sub-line)";
+                        adjacencyType = "subline";
                 }
                 else
                 {
                     if (SameWidth && StartSamePointX)
-                        adjacencyType = "Adjacency (proper)";
+                        adjacencyType = "proper";
                     else if (SameWidth && !StartSamePointX)
-                        adjacencyType = "Adjacency (partial)";
+                        adjacencyType = "partial";
                     else
-                        adjacencyType = "Adjacency (sub-line)";
+                        adjacencyType = "sub-line";
                 }
 
                 return adjacencyType;
