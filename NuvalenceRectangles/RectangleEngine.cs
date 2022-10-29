@@ -75,12 +75,13 @@ namespace NuvalenceRectangles
             return !((IntersectionRentangle.X1 > IntersectionRentangle.X2) || (IntersectionRentangle.Y1 > IntersectionRentangle.Y2));
         }
 
+        //TODO: Return only the 2 pints where the interception happens, not the 4 coordinates of the interception rectangle
         public string GetIntersectionPoints()
-        {
-            //TODO: return only the 2 pints where the interception happens
+        {            
             return Intersection ? $"({IntersectionRentangle.X1},{IntersectionRentangle.Y1}) ({IntersectionRentangle.X1},{IntersectionRentangle.Y2}) ({IntersectionRentangle.X2},{IntersectionRentangle.Y1}) ({IntersectionRentangle.X2},{IntersectionRentangle.Y2})" : "NO INTERSECTION";
         }
 
+        //TODO: This logic is not 100% accurate, there are some edge cases that need to be considered
         public string GetAdjacencyType()
         {
             if (Adjacency)
